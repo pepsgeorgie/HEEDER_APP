@@ -11,6 +11,7 @@ export default class Channels extends React.Component {
     firebase.auth().signOut();
   }
     render() {
+      const {navigate} = this.props.navigation;
         return (
           <View style = {styles.container}>
             {/* <Text>Channel</Text>
@@ -22,16 +23,16 @@ export default class Channels extends React.Component {
               style = {{color: '#fff'}}>
               <Text style={styles.label}>Logout</Text>
             </Button> */}
-            <Card>
-              <CardItem>
+            {/* <Card>
+              <CardItem> */}
                 <Button 
-                onPress ={() =>this.props.navigation.navigate('AddClassScreen')}
-                transparent
-                primary>
+                  onPress ={() => navigate('AddClassScreen')}
+                  transparent
+                  primary>
                   <Text>Add Class</Text>
                 </Button>
-              </CardItem>
-            </Card>
+              {/* </CardItem>
+            </Card> */}
 
           </View>
         );
