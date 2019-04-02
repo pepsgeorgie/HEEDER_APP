@@ -1,48 +1,50 @@
+//input channel unique ID, the user must have unique ID 
 import React, { Component } from 'react';
 import {StyleSheet, View, Text, Image, Alert} from 'react-native';
 import {Button, Form, Item, Input, floatingLabel, Label, InputGroup} from 'native-base';
+//import TestChannel from '../TestChannel';
 import * as firebase from 'firebase';
 
 
 
-export default class AddClassScreen extends React.Component {
+export default class JoinScreen extends React.Component {
 
     constructor (props){
         super(props);
         this.state = ({
-            channelName: '',
+            channelCode: '',
 
 
         });
     }
 
+    channelCodeHandling = () => {
+        try{
+            if(this.state.channelCode.length > 10){
+                Alert.alert("coder error: code has only 10 characters")
+                return;
+            } else{
+                Alert.alert("Success").then (() => this.props.navigation.navigate('TestChannel'))
+                return;
+            }
+
+        }catch(error){
+            console.log(error.toString())
+        }
+    }
 render(){
 <View style = {styles.container}>
 
     <Form>
         <Item>
         <InputGroup>
-        <Label>Name</Label>
+        <Label>Input Class Code</Label>
             <Input
-            value = {this.state.channelName}
-            style = {{color: '#fff'}}
-            autoCapitalize = "none"
-            autoCorrect= {false}>
-
-            </Input>
-        </InputGroup>
-        </Item>
-
-        <Item>
-        <InputGroup>
-        <Label>Name</Label>
-            <Input
-            //set.State to return the value of the inputed channel name to channelName variable
-            value = {this.state.channelName}
+            value = {this.state.channelCode}
             style = {{color: '#fff'}}
             autoCapitalize = "none"
             autoCorrect= {false}
-            onChangeText = {(channelName) => this.setState({channelName})}>
+            onChangeText={(channelCode) => { this.setState({channelCode}) }}>
 
             </Input>
         </InputGroup>
@@ -50,11 +52,11 @@ render(){
 
     </Form> 
         <Button
-        //confirm button to add new channel in crud (add function here)
+        //confirm button (add function here)
         transparent
         //temporray navigation
-        onPress = {() =>this.props.navigation.navigate('Channels')}
-        //this channel name will navigate to the newly created channel
+        onPress = {this.channelCodeHandling}
+        //logic to redirect user in to the channel
         >
         <Text style={{color:'#fff'}}>Confirm</Text>
         </Button>
@@ -75,3 +77,4 @@ const styles = StyleSheet.create({
    
 
 });
+
