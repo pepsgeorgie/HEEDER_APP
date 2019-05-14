@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    .st{
+        font-size: 3rem;
+        text-align: center;
+        margin-bottom: 30pt;
+    }
+    .classes{
+        font-size: 20px;
+        margin: 0%;
+        font-weight: bolder;
+    }
+    .colors{
+       color:#28a745;
+    }
+    .color-name{
+        font-size: 10pt;
+    }
+</style>    
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Vendor styles -->
+        <link rel="stylesheet" href="vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css">
+        <link rel="stylesheet" href="vendors/bower_components/animate.css/animate.min.css">
+        <link rel="stylesheet" href="vendors/bower_components/jquery.scrollbar/jquery.scrollbar.css">
+
+        <!-- App styles -->
+        <link rel="stylesheet" href="css/app.min.css">
+    </head>
+    
+    <body data-sa-theme="1">
+        <main class="main">
+            <div class="page-loader">
+                <div class="page-loader__spinner">
+                    <svg viewBox="25 25 50 50">
+                        <circle cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                    </svg>
+                </div>
+            </div>
+
+            <header class="header">
+                    <div class="navigation-trigger hidden-xl-up" data-sa-action="aside-open" data-sa-target=".sidebar">
+                        <i class="zmdi zmdi-menu"></i>
+                    </div>
+                    <div class=""><a href="ViewClass.html">&nbsp;&nbsp;<img src="img/logo-02.png" width="130"></a></div>
+                    <ul class="top-nav"></ul>
+                    <div class="clock">
+                        <div class="time">
+                            <span class="time__hours"></span>
+                            <span class="time__min"></span>
+                            <span class="time__sec"></span>
+                        </div>
+                    </div>
+            </header>
+    
+            <aside class="sidebar">
+                    <div class="scrollbar-inner">
+    
+                        <div class="user">
+                            <div class="user__info" data-toggle="dropdown">
+                                <img class="user__img" src="demo/img/profile-pics/8.jpg" alt="">
+                                <div>
+                                    <div class="user__name">Humor Dain</div>
+                                </div>
+                            </div>
+                        </div>
+    
+                         <ul class="navigation">
+                            <li class="navigation__active navigation__sub @@variantsactive"><a href="ViewClass.html"><i class="zmdi zmdi-copy"></i>Classes</a>
+                                <ul>
+                                        <li class="@@sidebaractive"><a href="ViewClass.html">List Classes</a></li>
+                                        <li class="@@sidebaractive"><a href="editClass.html">Edit Classes</a></li>
+                                </ul>
+                            </li>
+                            <li class="@@widgetactive"><a href="profile.html"><i class="zmdi zmdi-account"></i> Profile</a></li>
+                            <hr>
+                            <li class="@@widgetactive logout"><i class="zmdi zmdi-power"></i> Logout</li>
+                        </ul>
+                    </div>
+            </aside>
+
+            <section class="content">
+                <div class="content__inner">
+                    <header class="content__title">
+                        <p class="classes"></p>
+                    </header>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="st">10:53:05</p>
+                            <p class="sizes">
+                                <button type="button" class="btn btn-danger btn-block sizes">
+                                    <font style="font-size: 15px; font-family:Verdana, Geneva, Tahoma, sans-serif; font-weight: bolder;">Start Recording</font> 
+                                </button>
+                            </p>
+                        </div>
+                    </div> 
+                    <div>
+                        <header class="content_title">
+                                <h5>connected students</h5>
+                                <div>
+                                    <table id="listview">
+                                        <tbody>
+                                            
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                        </header>
+                    </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+
+        <!-- Javascript -->
+        <!-- Vendors -->
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <!-- <script src="vendors/bower_components/jquery/dist/jquery.min.js"></script> -->
+        <script src="vendors/bower_components/popper.js/dist/umd/popper.min.js"></script>
+        <script src="vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="vendors/bower_components/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+        <script src="vendors/bower_components/jquery-scrollLock/jquery-scrollLock.min.js"></script>
+
+        <!-- App functions and actions -->
+        <script src="js/app.min.js"></script>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/geturi.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+                        
+                $(document).ready(function() {
+                    $.ajax({
+                        url: "http://heeder.local/ajaxdata/viewRecord",
+                        type: 'get',
+                        dataType: 'html',
+                        success: function(data) {
+                            var str = JSON.parse(data);
+                            
+                            var class_name = "";
+                            str.forEach(element => {
+                                $("#listview").append(
+                                    '<tr>'+
+                                        '<td><i class="zmdi zmdi-circle colors"></i> </td>'+
+                                        '<td class="color-name">'+ element.name+'</td>'+
+                                    '</tr>'
+                                );
+                                class_name = element.channelName;
+                            });
+                               
+                                $('.classes').text(class_name);
+                        },
+                        error: function(){
+                            alert("error");
+                        }
+                    });  
+
+                    $('.logout').on('click', function(){
+                        $.ajax({
+                            type:'get',
+                            url: 'http://heeder.local/ajaxdata/logout',
+                            success: function(){
+                                location.replace('index.html');
+                            }
+                        });
+                    }); 
+                });
+          </script>
+    
+    </body>
+</html>
